@@ -34,7 +34,7 @@ const Weather = () => {
     const search = async (city) =>{
         if(city === "")
         {
-            alert("ENter city name");
+            alert("Enter city name");
             return;
         }
         try{
@@ -42,6 +42,12 @@ const Weather = () => {
 
                 const response = await fetch(url);
                 const data = await response.json();
+
+                if(!response.ok){
+                    alert(data.message);
+                    return;
+                }
+
                 console.log(data);
                 const icon = allIcons[data.weather[0].icon] || clear_icon;
                 setWeatherData({
@@ -71,9 +77,7 @@ const Weather = () => {
                 <img src={search_icon} alt="" onClick={()=>search(inputRef.current.value)}/>
             </div>
             {weatherData?<>
-
-
-            <img src={weatherData.icon} className="weather-icon"/>
+                <img src={weatherData.icon} className="weather-icon"/>
             <p className="temperature">{weatherData.temperature}°c</p>
             <p className="location">{weatherData.location}</p>
             <div className="weather-data">
@@ -92,7 +96,14 @@ const Weather = () => {
                     </div>
                 </div>
             </div>
-            </>:<></>}
+            </>:
+            <>
+            
+            </>}
+
+
+            
+            
         </div>
     )
 }
